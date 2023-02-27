@@ -37,6 +37,7 @@ public class TransactionReceipt {
     private String revertReason;
     private String type;
     private String effectiveGasPrice;
+    private String l1Fee;
 
     public TransactionReceipt() {}
 
@@ -56,7 +57,8 @@ public class TransactionReceipt {
             String logsBloom,
             String revertReason,
             String type,
-            String effectiveGasPrice) {
+            String effectiveGasPrice,
+            String l1Fee) {
         this.transactionHash = transactionHash;
         this.transactionIndex = transactionIndex;
         this.blockHash = blockHash;
@@ -73,6 +75,7 @@ public class TransactionReceipt {
         this.revertReason = revertReason;
         this.type = type;
         this.effectiveGasPrice = effectiveGasPrice;
+        this.l1Fee = l1Fee;
     }
 
     public String getTransactionHash() {
@@ -219,6 +222,14 @@ public class TransactionReceipt {
         this.type = type;
     }
 
+    public String getL1Fee() {
+        return l1Fee;
+    }
+
+    public void setL1Fee(String l1Fee) {
+        this.l1Fee = l1Fee;
+    }
+
     public String getEffectiveGasPrice() {
         return effectiveGasPrice;
     }
@@ -302,6 +313,13 @@ public class TransactionReceipt {
                 : that.getEffectiveGasPrice() != null) {
             return false;
         }
+
+        if (getL1Fee() != null
+                ? !getL1Fee().equals(that.getL1Fee())
+                : that.getL1Fee() != null) {
+            return false;
+        }
+
         return getRevertReason() != null
                 ? getRevertReason().equals(that.getRevertReason())
                 : that.getRevertReason() == null;
@@ -327,6 +345,9 @@ public class TransactionReceipt {
         result =
                 31 * result
                         + (getEffectiveGasPrice() != null ? getEffectiveGasPrice().hashCode() : 0);
+        result =
+                31 * result
+                        + (getL1Fee() != null ? getL1Fee().hashCode() : 0);
         return result;
     }
 
@@ -379,6 +400,8 @@ public class TransactionReceipt {
                 + '\''
                 + ", effectiveGasPrice='"
                 + effectiveGasPrice
+                + ", l1Fee='"
+                + l1Fee
                 + '\''
                 + '}';
     }
